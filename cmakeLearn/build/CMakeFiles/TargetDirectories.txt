@@ -1,0 +1,6 @@
+/root/leefile/git/QtLearn/cmakeLearn/build/CMakeFiles/edit_cache.dir
+/root/leefile/git/QtLearn/cmakeLearn/build/CMakeFiles/rebuild_cache.dir
+/root/leefile/git/QtLearn/cmakeLearn/build/CMakeFiles/main.dir
+/root/leefile/git/QtLearn/cmakeLearn/build/src/CMakeFiles/edit_cache.dir
+/root/leefile/git/QtLearn/cmakeLearn/build/src/CMakeFiles/rebuild_cache.dir
+/root/leefile/git/QtLearn/cmakeLearn/build/src/CMakeFiles/Test.dir

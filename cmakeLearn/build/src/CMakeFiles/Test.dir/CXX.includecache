@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/root/leefile/git/QtLearn/cmakeLearn/src/Test1.cpp
+Test1.hpp
+/root/leefile/git/QtLearn/cmakeLearn/src/Test1.hpp
+iostream
+-
+
+/root/leefile/git/QtLearn/cmakeLearn/src/Test1.hpp
+
+/root/leefile/git/QtLearn/cmakeLearn/src/VoidLisp.cpp
+VoidLisp.hpp
+/root/leefile/git/QtLearn/cmakeLearn/src/VoidLisp.hpp
+math.h
+-
+iostream
+-
+stack
+-
+
+/root/leefile/git/QtLearn/cmakeLearn/src/VoidLisp.hpp
+list
+-
+map
+-
+stack
+-
+string
+-
+vector
+-
+
