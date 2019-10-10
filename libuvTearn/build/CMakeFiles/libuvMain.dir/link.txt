@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/libuvMain.dir/libuvMain.cpp.o  -o libuvMain  -L/root/leefile/git/QtLearn/libuvTearn/libuv/lib -rdynamic -luv -Wl,-rpath,/root/leefile/git/QtLearn/libuvTearn/libuv/lib 
