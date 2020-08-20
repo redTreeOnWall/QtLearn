@@ -164,7 +164,7 @@ void http_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf){
         int pathSlice[2] = {0,0};
         int postSlice[2] = {0,0};
 
-        for(int i = 0;i<req->buf.len;i++){
+        for(int i = 0;i < req->buf.len;i++){
             char c = req->buf.base[i];
         }
 
@@ -247,6 +247,18 @@ int libUvSocket() {
 }
 
 
+//this is hello world of libuv
+
+int runHello(){
+    uv_loop_t * loop =(uv_loop_t *) malloc(sizeof(uv_loop_t));
+    uv_loop_init(loop);
+    printf("now quiting\n");
+    uv_run(loop,UV_RUN_DEFAULT);
+    uv_loop_close(loop);
+    free(loop);
+    return 0;
+}
+
 
 
 
@@ -254,4 +266,5 @@ int libUvSocket() {
 int main(){
     // normalSocket();
     libUvSocket();
+    // runHello();
 }

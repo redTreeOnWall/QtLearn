@@ -34,6 +34,8 @@
         "typeinfo": "cpp",
         "hash_map": "cpp",
         "numeric": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "lauxlib.h": "c",
+        "lua.h": "c"
     }
 }

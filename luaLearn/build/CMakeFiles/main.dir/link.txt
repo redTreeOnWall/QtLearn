@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/main.dir/main.c.o  -o main  -L/root/leefile/git/QtLearn/luaLearn/lib -rdynamic -llua_static_5.3.3 -lm -Wl,-rpath,/root/leefile/git/QtLearn/luaLearn/lib 

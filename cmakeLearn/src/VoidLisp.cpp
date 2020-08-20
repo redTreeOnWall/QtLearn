@@ -79,18 +79,18 @@ Met::Met(VoidLisp *l) {
   this->type = MetType::nil;
   l->addMet(this);
 }
-Met::Met(VoidLisp *l,double num) {
+Met::Met(VoidLisp *l, double num) {
   this->num = num;
   this->type = MetType::num;
   l->addMet(this);
 }
-Met::Met(VoidLisp *l,int listSize) {
+Met::Met(VoidLisp *l, int listSize) {
   this->mets = new vector<Met *>();
   this->type = MetType::ls;
   l->addMet(this);
 }
 
-Met::Met(VoidLisp *l,string *content) {
+Met::Met(VoidLisp *l, string *content) {
   this->type = MetType::str;
   string &os = *content;
   string *s = new string(os);
@@ -156,60 +156,61 @@ string *Met::toString() {
   return reP;
 }
 
-
-LispRuntimeStatckElem :: LispRuntimeStatckElem(VoidLisp *lisper){
+LispRuntimeStatckElem ::LispRuntimeStatckElem(VoidLisp *lisper) {
   this->lisp = lisper;
-  lisp ->runtimeStatck.push_back(this);
-  lisp->stackIndex ++;
+  lisp->runtimeStatck.push_back(this);
+  lisp->stackIndex++;
   this->statckIndex = lisp->stackIndex;
 };
 
-LispRuntimeStatckElem :: ~LispRuntimeStatckElem(){
-  lisp -> runtimeStatck.pop_back();
+LispRuntimeStatckElem ::~LispRuntimeStatckElem() {
+  lisp->runtimeStatck.pop_back();
   this->localVals->clear();
   delete this->localVals;
-  lisp->stackIndex --;
+  lisp->stackIndex--;
 };
 
-void LispRuntimeStatckElem :: setLocalVal(const string &key, Met *m){
-  // if(lisp->runtimeStatck.empty() || lisp->runtimeStatck.end() == lisp->runtimeStatck.begin()){
+void LispRuntimeStatckElem ::setLocalVal(const string &key, Met *m) {
+  // if(lisp->runtimeStatck.empty() || lisp->runtimeStatck.end() ==
+  // lisp->runtimeStatck.begin()){
   //   throw "paren is empty";
   // }
 
-  LispRuntimeStatckElem *parentElem  = *(--(--lisp->runtimeStatck.end()));
+  LispRuntimeStatckElem *parentElem = *(--(--lisp->runtimeStatck.end()));
 
-  if(parentElem->localVals ==NULL){
-    parentElem -> localVals =  new map<string,long>();
+  if (parentElem->localVals == NULL) {
+    parentElem->localVals = new map<string, long>();
   }
 
   string keyS = key;
-  (*(parentElem -> localVals))[keyS] = (long)m;
+  (*(parentElem->localVals))[keyS] = (long)m;
 };
 
-Met *LispRuntimeStatckElem :: getLocalVal(const string &key){
-
-  if(lisp->runtimeStatck.empty() || lisp->runtimeStatck.end() == lisp->runtimeStatck.begin()){
+Met *LispRuntimeStatckElem ::getLocalVal(const string &key) {
+  if (lisp->runtimeStatck.empty() ||
+      lisp->runtimeStatck.end() == lisp->runtimeStatck.begin()) {
     throw "paren is empty";
   }
 
-  auto &sta =  lisp ->runtimeStatck;
-  int ii =0;
-  for(auto it = sta.end()-- ; it != sta.begin() ;){
+  auto &sta = lisp->runtimeStatck;
+  int ii = 0;
+  for (auto it = sta.end()--; it != sta.begin();) {
     --it;
-    LispRuntimeStatckElem *parentElem  = *it;
-    if(parentElem->localVals !=NULL){
-      map<string,long> &mp =  *(parentElem -> localVals);
-      if(mp.find(key) != mp.end()){
-        return (Met *) mp[key];
+    LispRuntimeStatckElem *parentElem = *it;
+    if (parentElem->localVals != NULL) {
+      map<string, long> &mp = *(parentElem->localVals);
+      if (mp.find(key) != mp.end()) {
+        return (Met *)mp[key];
       }
     }
   }
 
-  string err =  "sign "+ key + " is not define";
+  string err = "sign " + key + " is not define";
   throw err;
 }
 
-void VoidLisp ::pushTokenToTokens(vector<string *> *tokens, vector<char> *token) {
+void VoidLisp ::pushTokenToTokens(vector<string *> *tokens,
+                                  vector<char> *token) {
   int l = token->size();
   if (l == 0) {
     return;
@@ -223,12 +224,12 @@ void VoidLisp ::pushTokenToTokens(vector<string *> *tokens, vector<char> *token)
   tokens->push_back(newToken);
 }
 
-VoidLisp::VoidLisp() { 
-  this->allMet =  new list<Met *>();
+VoidLisp::VoidLisp() {
+  this->allMet = new list<Met *>();
   initLib();
 }
 
-VoidLisp::~VoidLisp() { 
+VoidLisp::~VoidLisp() {
   gc();
   this->allMet->clear();
   delete allMet;
@@ -300,7 +301,7 @@ vector<string *> *VoidLisp ::GetToken(string *s) {
 
 Met *VoidLisp::GetAst(std::vector<std::string *> *tokens) {
   stack<Met *> sta;
-  Met *root = new Met(this,0);
+  Met *root = new Met(this, 0);
   sta.push(root);
   auto &ts = *tokens;
   for (int i = 0; i < tokens->size(); i++) {
@@ -308,7 +309,7 @@ Met *VoidLisp::GetAst(std::vector<std::string *> *tokens) {
     string &t = *tp;
     char c = t[0];
     if (c == '(') {
-      auto *m = new Met(this,0);
+      auto *m = new Met(this, 0);
       if (sta.empty()) {
         cout << "err: to much ')'" << endl;
         throw "err: to much ')'";
@@ -352,7 +353,7 @@ Met *VoidLisp::GetAst(std::vector<std::string *> *tokens) {
     throw "err: to much '('";
   }
   if (root == NULL) {
-    root = new Met(this,0);
+    root = new Met(this, 0);
   }
   if (root->mets->size() != 1) {
     cout << "err: code must be in one () " << endl;
@@ -377,11 +378,9 @@ Met *VoidLisp::RunFunction(const std::string &funcName) {
   return m;
 }
 
-
-Met *VoidLisp:: exec(Met *m){
+Met *VoidLisp::exec(Met *m) {
   ///------
   if (m->type == MetType::ls) {
-
     LispRuntimeStatckElem stack(this);
 
     if (m->mets == 0 || m->mets->size() == 0) {
@@ -390,15 +389,15 @@ Met *VoidLisp:: exec(Met *m){
       return m;
     }
 
-    for(auto mmm : *m->mets){
+    for (auto mmm : *m->mets) {
       this->runtimeStatck.back()->paramsOrigin.push_back(mmm);
     }
 
     vector<Met *> &ms = (*(m->mets));
 
-    Met *key =ms[0];
-    if(key ->type != MetType :: sg){
-      key =exec( key);
+    Met *key = ms[0];
+    if (key->type != MetType ::sg) {
+      key = exec(key);
     }
 
     if (key->type != MetType::sg) {
@@ -409,13 +408,12 @@ Met *VoidLisp:: exec(Met *m){
     }
 
     bool isLet = false;
-    if(key->name->size() == 3){
+    if (key->name->size() == 3) {
       string keyStr = *key->name;
-      if(keyStr == "let"){
-          isLet = true;
+      if (keyStr == "let") {
+        isLet = true;
       }
     }
-
 
     if ((*(key->name))[0] == '\'') {
       return ms[1];
@@ -436,13 +434,13 @@ Met *VoidLisp:: exec(Met *m){
         }
       } else {
         Met *paramMet;
-        paramMet =(isLet && i==1) ? ms[i] :  exec( ms[i]);
+        paramMet = (isLet && i == 1) ? ms[i] : exec(ms[i]);
         params.push_back(paramMet);
       }
-      int passedCount = i +1;
+      int passedCount = i + 1;
       while (thisLength > (originLength - passedCount)) {
-        this ->runtimeStatck.back() ->paramsOrigin.pop_front();
-        thisLength = thisLength-1;
+        this->runtimeStatck.back()->paramsOrigin.pop_front();
+        thisLength = thisLength - 1;
       }
     }
 
@@ -451,8 +449,8 @@ Met *VoidLisp:: exec(Met *m){
     return resMet;
 
   } else if (m->type == MetType::sg) {
-    Met * local = this->runtimeStatck.back() -> getLocalVal(*(m->name)) ;
-    if(local != NULL){
+    Met *local = this->runtimeStatck.back()->getLocalVal(*(m->name));
+    if (local != NULL) {
       return local;
     }
     return m;
@@ -484,40 +482,41 @@ Met *VoidLisp::Eval(string *s) {
 
 void VoidLisp::gc() {
   /*
-    gc : 
+    gc :
     1. mark all the useful object (param, local vals in statck and globle vals)
     2. relese objects not marked;(foreach all the objects)
    */
 
-  //mark;
-  stack<Met *>  * loopStackP = new stack<Met *>();
-  stack<Met *>  & loopStack =*loopStackP;
+  // mark;
+  stack<Met *> *loopStackP = new stack<Met *>();
+  stack<Met *> &loopStack = *loopStackP;
 
-  for( auto *elem : runtimeStatck){
-    for(auto p: elem -> params){
+  for (auto *elem : runtimeStatck) {
+    for (auto p : elem->params) {
       loopStack.push(p);
     }
 
-    for(auto p: elem -> paramsOrigin){
+    for (auto p : elem->paramsOrigin) {
       loopStack.push(p);
     }
 
-    if(elem -> localVals != NULL){
-      for(auto it  = elem ->localVals->begin();it != elem -> localVals ->end();++it){
-        auto *p =(Met *) it->second;
+    if (elem->localVals != NULL) {
+      for (auto it = elem->localVals->begin(); it != elem->localVals->end();
+           ++it) {
+        auto *p = (Met *)it->second;
         loopStack.push(p);
       }
     }
-    while(!loopStack.empty()){
+    while (!loopStack.empty()) {
       Met *e = loopStack.top();
       loopStack.pop();
-      if(e->gcMarked){
+      if (e->gcMarked) {
         continue;
       }
       e->gcMarked = true;
       // cout << "marked obj: " <<*(e->toString()) <<endl;
-      if(e->mets != NULL){
-        for(auto em : *(e->mets)){
+      if (e->mets != NULL) {
+        for (auto em : *(e->mets)) {
           loopStack.push(em);
         }
       }
@@ -525,28 +524,26 @@ void VoidLisp::gc() {
   }
 
   // release
-  for(auto it  = allMet->begin() ; it != allMet->end();){
-    Met * m = *it;
-    if(!m->gcMarked){
-      allMet->erase(it++); // delete and to next
+  for (auto it = allMet->begin(); it != allMet->end();) {
+    Met *m = *it;
+    if (!m->gcMarked) {
+      allMet->erase(it++);  // delete and to next
       delete m;
-    }else{
+    } else {
       ++it;
     }
   }
 }
 
-void VoidLisp::addMet(Met * m){
-  this->allMet -> push_back(m);
-}
+void VoidLisp::addMet(Met *m) { this->allMet->push_back(m); }
 
 //----------------------------------------------------------------------------------------------------
 
 Met *LispPrint(const VoidLispParam &params, VoidLisp *lisper) {
-  string ss ;
+  string ss;
   for (Met *m : params) {
     string *s = m->toString();
-    ss+= *s;
+    ss += *s;
     delete s;
   }
   cout << ss << endl;
@@ -558,7 +555,7 @@ Met *add(const VoidLispParam &params, VoidLisp *lisper) {
   for (Met *m : params) {
     res = res + m->num;
   }
-  return new Met(lisper,res);
+  return new Met(lisper, res);
 }
 
 Met *mul(const VoidLispParam &params, VoidLisp *lisper) {
@@ -566,7 +563,7 @@ Met *mul(const VoidLispParam &params, VoidLisp *lisper) {
   for (Met *m : params) {
     res = res * m->num;
   }
-  return new Met(lisper,res);
+  return new Met(lisper, res);
 }
 
 Met *sub(const VoidLispParam &params, VoidLisp *lisper) {
@@ -578,12 +575,10 @@ Met *sub(const VoidLispParam &params, VoidLisp *lisper) {
       res = res - m->num;
     }
   }
-  return new Met(lisper,res);
+  return new Met(lisper, res);
 }
 
-
 Met *div(const VoidLispParam &params, VoidLisp *lisper) {
-
   double res = 0;
   if (params.size() > 2) {
     res = (*params[0]).num;
@@ -592,15 +587,15 @@ Met *div(const VoidLispParam &params, VoidLisp *lisper) {
       res = res / m->num;
     }
   }
-  return new Met(lisper,res);
+  return new Met(lisper, res);
 }
 
 Met *let(const VoidLispParam &params, VoidLisp *lisper) {
-  if(params.size() !=2 || params[0]->type != MetType::sg){
-    cout <<"let is not correct used:should use like: (let a 1000)"<<endl;
+  if (params.size() != 2 || params[0]->type != MetType::sg) {
+    cout << "let is not correct used:should use like: (let a 1000)" << endl;
     throw "err";
   }
-  lisper->runtimeStatck.back() ->setLocalVal(*(params[0]->name),params[1]);
+  lisper->runtimeStatck.back()->setLocalVal(*(params[0]->name), params[1]);
   return (params[1]);
 }
 
@@ -614,13 +609,8 @@ Met *gcAll(const VoidLispParam &params, VoidLisp *lisper) {
 }
 
 Met *allMetNum(const VoidLispParam &params, VoidLisp *lisper) {
-  return new Met(lisper,(double) lisper->allMet->size());
+  return new Met(lisper, (double)lisper->allMet->size());
 }
-
-
-
-
-
 
 void VoidLisp::initLib() {
   this->AddFunction("println", LispPrint);
