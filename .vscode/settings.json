@@ -36,6 +36,7 @@
         "numeric": "cpp",
         "list": "cpp",
         "lauxlib.h": "c",
-        "lua.h": "c"
+        "lua.h": "c",
+        "memory": "cpp"
     }
 }
