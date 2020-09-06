@@ -93,7 +93,11 @@ void TestSmartPointer(){
     auto p3 = p2;
     cout << "p2 use count:" << p2.use_count() << endl;
     std::cout << p2->name  << std::endl;
+
     p3 -> Speak();
+
+    weak_ptr<TestClass> wp(p);
+    wp.lock()->Speak();
 }
 
 
